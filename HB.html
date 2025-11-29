@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>З Днем Народження!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Фонові частинки */
+        .particle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s infinite;
+        }
+
+        @keyframes float {
+            0% { 
+                transform: translateY(0) translateX(0) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(-100vh) translateX(50px) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .instruction {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .cake-wrapper {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+
+        /* Торт */
+        .cake {
+            position: relative;
+            width: 320px;
+            height: 250px;
+            margin: 0 auto;
+            transition: all 0.8s ease;
+        }
+
+        .cake-layer {
+            position: absolute;
+            width: 100%;
+            height: 200px;
+            bottom: 0;
+            background: linear-gradient(135deg, #ff9a9e 0%, #ffbcca 50%, #ffa99e 100%);
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Глазур */
+        .frosting {
+            position: absolute;
+            top: -35px;
+            width: 100%;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .frosting::before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 8%;
+            width: 35%;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .frosting::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            right: 8%;
+            width: 35%;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        /* Прикраси на торті */
+        .decoration {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .decoration:nth-child(1) { background: #ffd93d; top: 35%; left: 20%; }
+        .decoration:nth-child(1) { background: #ff9b3d; top: 25%; left: 50%; }
+        .decoration:nth-child(2) { background: #756bff; top: 45%; right: 25%; }
+        .decoration:nth-child(2) { background: #c66bff; top: 55%; right: 25%; }
+        .decoration:nth-child(3) { background: #4facfe; top: 65%; left: 30%; }
+        .decoration:nth-child(4) { background: #43e97b; top: 60%; right: 20%; }
+        .decoration:nth-child(5) { background: #fa709a; top: 42%; left: 50%; transform: translateX(-50%); }
+
+        /* Свічка */
+        .candle {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 80px;
+            background: repeating-linear-gradient(
+                45deg,
+                #ff69b4,
+                #ff69b4 10px,
+                #ff1493 10px,
+                #ff1493 20px
+            );
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s ease;
+        }
+
+        .candle::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 10px;
+            background: #333;
+            border-radius: 3px;
+        }
+
+        /* Полум'я */
+        .flame {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 30px;
+            background: linear-gradient(to top, #ff9500, #ffeb3b, #fff);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flicker 0.2s infinite alternate;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .flame::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 15px;
+            background: #ffeb3b;
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); }
+            100% { transform: translateX(-50%) scale(1.1) translateY(-2px); }
+        }
+
+        .flame.blown {
+            animation: blowOut 0.5s forwards;
+        }
+
+        @keyframes blowOut {
+            0% { opacity: 1; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.5; transform: translateX(-50%) scale(1.5) translateY(-10px); }
+            100% { opacity: 0; transform: translateX(-50%) scale(0.5) translateY(-20px); }
+        }
+
+        /* Дим після задування */
+        .smoke {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: rgba(150, 150, 150, 0.5);
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .smoke.active {
+            animation: smokeRise 2s forwards;
+        }
+
+        @keyframes smokeRise {
+            0% { opacity: 0.8; transform: translateX(-50%) translateY(0) scale(0.5); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-50px) scale(1.5); }
+        }
+
+        /* Розкриття торта */
+        .cake.opening {
+            animation: cakeZoomIn 1.2s forwards;
+        }
+
+        @keyframes cakeZoomIn {
+            0% { 
+                transform: scale(1) translateZ(0);
+                opacity: 1;
+            }
+            70% {
+                transform: scale(1.5) translateZ(100px);
+                opacity: 1;
+            }
+            100% { 
+                transform: scale(2) translateZ(200px);
+                opacity: 0;
+            }
+        }
+
+        /* Конфетті */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: red;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .confetti.active {
+            animation: confettiFall 3s forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { 
+                opacity: 1; 
+                transform: translateY(-50vh) translateX(0) rotate(0deg); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateY(100vh) translateX(var(--confetti-x, 0)) rotate(720deg); 
+            }
+        }
+
+        /* Привітальне повідомлення */
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 90%;
+            opacity: 0;
+            z-index: 100;
+        }
+
+        .message.show {
+            animation: messageAppear 0.8s forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes messageAppear {
+            0% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(0.5); 
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.1); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1); 
+            }
+        }
+
+        .message h1 {
+            color: #ff6bcb;
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .message p {
+            color: #555;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .message .from {
+            color: #667eea;
+            font-style: italic;
+            font-size: 20px;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .reset-btn:active {
+            transform: translateY(0);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .cake-wrapper {
+                width: 280px;
+                height: 350px;
+            }
+            
+            .cake {
+                width: 280px;
+                height: 200px;
+            }
+            
+            .message h1 {
+                font-size: 24px;
+            }
+            
+            .message p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Фонові частинки -->
+    <script>
+        for(let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            particle.style.width = (Math.random() * 6 + 4) + 'px';
+            particle.style.height = particle.style.width;
+            document.body.appendChild(particle);
+        }
+    </script>
+
+    <div class="container">
+        <div class="instruction" id="instruction">
+            Натисни                        і задуй свічку!
+        </div>
+
+        <div class="cake-wrapper" id="cakeWrapper">
+            <div class="cake" id="cake">
+                <div class="candle">
+                    <div class="flame" id="flame"></div>
+                    <div class="smoke" id="smoke"></div>
+                </div>
+                
+                <div class="cake-layer">
+                    <div class="frosting"></div>
+                    <div class="decoration"></div>
+                    <div class="decoration"></div>
+                    <div class="decoration"></div>
+                    <div class="decoration"></div>
+                    <div class="decoration"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="message hidden" id="message">
+            <h1>З Днем Народження!</h1>
+            <p>
+                <!-- ШАБЛОН 1: Головне привітання -->
+                Привіт! Вірю в те, що у нашій родині все-все буде добре!
+            </p>
+            <p>
+                <!-- ШАБЛОН 2: Додаткові побажання -->
+                Сподіваюся, тобі сподобався цей подарунок і він підніме тобі настрій!
+            </p>
+            <p class="from">
+                <!-- ШАБЛОН 3: Від кого -->
+                Від Тьоми 🎉
+            </p>
+            <button class="reset-btn" id="resetBtn">Натисни, щоб повторити</button>
+        </div>
+    </div>
+
+    <script>
+        const cakeWrapper = document.getElementById('cakeWrapper');
+        const cake = document.getElementById('cake');
+        const flame = document.getElementById('flame');
+        const smoke = document.getElementById('smoke');
+        const message = document.getElementById('message');
+        const instruction = document.getElementById('instruction');
+        const resetBtn = document.getElementById('resetBtn');
+        let candleBlown = false;
+
+        cakeWrapper.addEventListener('click', function() {
+            if (!candleBlown) {
+                // Задуваємо свічку
+                candleBlown = true;
+                flame.classList.add('blown');
+                smoke.classList.add('active');
+                instruction.classList.add('hidden');
+
+                // Через 1 секунду розкриваємо торт
+                setTimeout(() => {
+                    cake.classList.add('opening');
+                    createConfetti();
+                    
+                    // Показуємо повідомлення
+                    setTimeout(() => {
+                        message.classList.remove('hidden');
+                        message.classList.add('show');
+                    }, 500);
+                }, 1000);
+            }
+        });
+
+        // Кнопка перезапуску
+        resetBtn.addEventListener('click', function() {
+            // Скидаємо всі стани
+            candleBlown = false;
+            flame.classList.remove('blown');
+            smoke.classList.remove('active');
+            cake.classList.remove('opening');
+            message.classList.add('hidden');
+            message.classList.remove('show');
+            instruction.classList.remove('hidden');
+            
+            // Видаляємо всі конфетті якщо залишилися
+            document.querySelectorAll('.confetti').forEach(c => c.remove());
+        });
+
+        function createConfetti() {
+            const colors = ['#ff6bcb', '#ffd93d', '#4facfe', '#43e97b', '#fa709a', '#ff9a9e'];
+            
+            for(let i = 0; i < 80; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                const startX = Math.random() * 100;
+                const endX = (Math.random() - 0.5) * 200;
+                
+                confetti.style.left = startX + 'vw';
+                confetti.style.top = '50vh';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.setProperty('--confetti-x', endX + 'px');
+                confetti.style.animationDelay = (Math.random() * 0.3) + 's';
+                confetti.style.animationDuration = (Math.random() * 1.5 + 2) + 's';
+                confetti.style.width = (Math.random() * 8 + 6) + 'px';
+                confetti.style.height = confetti.style.width;
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.classList.add('active');
+                }, 100);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3500);
+            }
+        }
+    </script>
+</body>
+</html>
